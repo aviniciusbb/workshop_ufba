@@ -1,0 +1,730 @@
+---
+title: Workshop - Introdução à Ciência de dados no R
+subtitle: Tópico II - Comandos Básicos
+format: thinkridentity-revealjs
+author: Antonio Vinícius Barbosa
+date: last-modified
+from: markdown+emoji
+---
+
+
+# Utilizando o `R` 
+
+## Por que utilizar o `R`?
+
+* Gratuito
+* CRAN com mais de 20.000 \textit{pacotes}
+* Comunidade ativa e colaborativa
+* Versatilidade: manipulação de dados, modelagem estatística, gráficos
+* Integrabilidade
+
+## `R` no Windows
+
+![](images/R_windows.png){fig-align="center" width="400"}
+
+
+
+## Ambientes de desenvolvimento integrado (IDE)
+
+* A forma mais conveniente de utilizar o `R` é através de uma interface gráfica através de janelas.
+* É possível interagir com o sistema através do `shell prompt`, embora requeira maior conhecimento do usuário.
+* O desenvolvimento de Ambientes de Desenvolvimento Integrado (IDE) tem como objetivo facilitar a interação entre o usuário e o sistema.  
+
+
+## RStudio
+
+![](images/RStudio-Logo-Flat.png){fig-align="center" width="300"}
+
+RStudio é um conjunto eficiente de ferramentas integradas [https://posit.co/](https://posit.co/)
+
+
+## RStudio
+
+![](images/rstudio_example.png){fig-align="center" width="400"}
+
+# Como o `R` funciona?
+
+## R Básico
+
+A forma mais simples de se utilizar o `R` é através de operações básicas:
+
+```{r, echo = TRUE, collapse = TRUE}
+#| code-line-numbers: "|1-2|3-4|5-6|7-8"
+2 + 2
+sqrt(81)
+pi
+print("Olá, mundo!")
+```
+
+Neste caso, o `R` executa a operação e retorna seu valor na tela.
+
+
+## Operações básicas
+
+```{r, echo = TRUE, collapse = TRUE}
+# Adicao
+23 + 4
+
+# Subtracao
+13 - 5
+
+# Multiplicao
+9 * 7
+
+# Divisao
+10/3
+
+# Exponeciacao
+2^5
+
+# Raiz quadrada
+sqrt(16)
+
+# Arredondar
+round(pi, 2)
+
+# Logaritmo (base e)
+log(10)
+
+# Logaritmo (outras bases)
+log(10, 10)
+```
+
+. . .
+
+O símbolo `#` é utilizado para adicionar comentários ao código.
+
+
+## Salvando valores em objetos
+
+- Ao executar uma **expressão** seu valor é gerado, mas não armazenado. 
+- Uma **atribuição**, por outro lado, salva o valor em um **objeto** (ou *variável*).
+- É, normalmente, feito através do operador especial `<-`
+- Além do operador `<-`, atribuições podem ser feitas através `=`
+
+```{r, echo = TRUE, collapse = TRUE}
+# Lados do triângulo 
+a <- 3
+b <- 4
+# Obter o tamanho da hipotenusa
+h = sqrt(a^2 + b^2)
+h
+```
+
+
+## Regra de etiqueta :bookmark: 
+
+Na maior parte do tempo, usuários do `R` utilizam apenas o operador `<-` para 
+atribuições, enquanto o símbolo de igualdade (`=`) é reservado para indicar os argumentos dentro de uma função.   
+
+```{r, echo = TRUE, collapse = TRUE}
+# Ruim :( 
+valor = 10
+media = mean(x = 1:10)
+
+# Bom :) 
+valor <- 10
+media <- mean(x = 1:10)
+```
+
+
+
+## Atribuições
+
+Os objetos criados são armazenados na memória e atualizados a cada nova atribuição:
+
+```{r, echo = TRUE, collapse = TRUE}
+# Massa em kg
+massa_kg <- 80
+# Altura em m
+altura <- 1.83
+# Calcular IMC
+imc <- massa_kg/(altura^2)
+imc
+```
+
+## 🚀 Quizz \#1 {.inverse background-color="#386FA4"}
+
+- Crie a variável `renda_dom` para armazenar o valor da renda total aproximada do seu domicílio.
+- Agora, atribua à variável `n_pessoas` o número de pessoas que moram no seu domicílio.
+- Calcule a renda domiciliar per capita e atribua à variável `renda_pc`.
+
+```{r, echo = FALSE, collapse = TRUE}
+countdown::countdown(
+  minutes = 3
+)
+```
+
+## Gerenciando objetos
+
+Para listar todos os objetos armazenados na memória, basta utilizar a função `ls()`
+
+```{r, echo = FALSE}
+rm(list=ls())
+```
+
+```{r, echo = TRUE, collapse = TRUE}
+# Criar objetos
+p <- pi
+e <- exp(1)
+r <- sqrt(2)
+
+# Listar objetos
+ls()
+```
+
+. . . 
+
+Para excluir ou remover um objeto, utilizamos a função `rm()`
+
+```{r, echo = TRUE, collapse = TRUE}
+rm(e)
+ls()
+```
+
+
+# Pacotes 📦 
+
+## Pacotes no `R`
+
+Um **pacote** é um conjunto de funções que servem para uma dada finalidade. Cada pacote possui uma documentação própria explicando sua funcionalidade e exemplos de uso.
+
+![](images/library.jpg){fig-align="center"}
+
+## Pacotes no `R`
+
+Para instalar um pacote específico no `R`, fazemos:
+
+```{r, eval=FALSE, echo = TRUE}
+# Pacotes do repositorio oficial (CRAN)
+install.packages("dplyr")
+install.packages("remotes")
+
+# Pacotes externos
+remotes::install_github("https://github.com/ccolonescu/PoEdata")
+```
+
+
+. . .
+
+
+Uma vez instalado, não é necessário reinstalar a cada uso. No entanto, para utilizar as funcionalidades de um pacote é necessário carregá-lo sempre que a sessão for iniciada:
+
+```{r, eval=FALSE, echo = TRUE}
+library(PoEdata)
+library(dplyr)
+```
+
+
+# Estruturas de dados 
+
+Veremos as principais estruturas de dados do `R`:
+
+::: {.incremental}
+- **Vetores**
+- **Matrizes**
+- **Data frames**
+
+:::
+#  Vetores 
+
+## Criando vetores
+
+A construção de vetores (conjunto de valores) é feito através do operador `c()`:
+
+```{r, echo = TRUE, collapse = T}
+#| code-line-numbers: "|1-4|1-8|1-12|1-16"
+# Características dos participantes
+idade <- c(19, 21, 23, 24, 25, 31, 33)
+idade
+
+sexo <- c("M", "M", "F", "F", "M", "F", "M")
+sexo
+
+aluno_econ <- c(TRUE, FALSE, FALSE, TRUE, TRUE, T, F)
+aluno_econ
+
+cra <- c(8.26, 7.18, 8.02, 7.33, 6.79, 9.45, 7.65)
+cra
+```
+
+## Classes
+
+Para determinar a classe de um vetor, utilizamos a função `class()`
+
+```{r, echo = TRUE, collapse = TRUE}
+class(idade)
+class(sexo)
+class(aluno_econ)
+class(cra)
+```
+
+As classes definem a forma de **armazenamento** na memória. Por exemplo, um vetor de números inteiros requer menos espaço de armazenamento do que os vetores numéricos.
+
+## Classes
+
+Para converter manualmente (quando possível) a classe de um vetor, utilizamos as funções `as.character()`, `as.numeric()`, `as.integer()` e `as.logical()`:
+
+```{r, echo = TRUE, collapse = TRUE}
+# Modificando classes de vetores
+as.integer(idade)
+
+as.numeric(aluno_econ)
+
+as.character(cra)
+```
+
+## Combinando vetores
+
+Ao combinar dois vetores de classes distintas, o `R` **converte** os elementos para torná-los comparáveis:
+
+```{r, echo = TRUE, collapse = TRUE}
+# Combinando vetores
+v1 <- c(1, 2, 3)
+v2 <- c("a", "b", "c")
+v3 <- c(v1, v2)
+v3
+class(v3)
+```
+
+. . .
+
+O novo vetor é formado unicamente por caracteres. Portanto, vetores no `R`
+são formado com elementos de uma única classe.
+
+
+## Operação com vetores
+
+Considere o vetor `cra`. Podemos fazer algumas operações básicas, tais como:
+
+```{r, echo = TRUE, collapse = TRUE}
+# Vetor 
+cra <- c(8.26, 7.18, 8.02, 7.33, 6.79, 9.45, 7.65)
+
+# Média de cra
+mean(cra)
+
+# Variância 
+var(cra)
+```
+
+## Operação com vetores
+
+A função `summary()` apresenta um conjunto de estatísticas básicas sobre um vetor:
+
+```{r, echo = TRUE, collapse = TRUE}
+summary(cra)
+```
+
+Para obter o tamanho de um vetor, utilizamos a função `length()`:
+
+```{r, echo = TRUE, collapse = TRUE}
+length(cra)
+```
+
+## Outras operações com vetores
+
+```{r, echo = TRUE, collapse = TRUE}
+# Valor mínimo  
+min(cra) 
+
+# Valor máximo
+max(cra)
+
+# Soma dos elementos 
+sum(cra)
+
+# Soma acumulada dos elementos 
+cumsum(cra)
+
+# Multiplicação por um escalar
+2 * cra
+```
+
+## Operação com vetores 
+
+Outras operações básicas com vetores:
+
+```{r, echo = TRUE, collapse = TRUE}
+# Operações entre vetores 
+a <- c(1, 2, 3, 4)
+b <- c(4, 3, 2, 1)
+
+a + b
+
+a - b
+
+a * b
+```
+
+## Operação com vetores
+
+Algumas destas operações não funcionam quando existem **elementos faltantes** (representados por `NA`)
+
+```{r, echo = TRUE, collapse = TRUE}
+valores_na <- c(21, 34, NA, 17, 25)
+mean(valores_na)
+sd(valores_na)
+```
+
+Neste caso, devemos *remover* os dados faltantes da seguinte forma:
+
+```{r, echo = TRUE, collapse = TRUE}
+mean(valores_na, na.rm = TRUE)
+sd(valores_na, na.rm = T)
+```
+
+## Reciclagem dos elementos dos vetores
+
+Podemos fazer operações com vetores de diferentes tamanhos. No entanto, o R
+utiliza um regra de reciclagem dos seus elementos:
+
+```{r, echo = TRUE, collapse = TRUE}
+# Criando vetores
+j <- c(1, 2, 3)
+k <- c(2, 4, 6, 8, 10)
+# Somar vetores de tamanhos distintos
+soma <- j + k
+soma
+```
+
+. . .
+
+::: {.callout-note}
+Equivale a soma de `c(1, 2, 3, 1, 2) + c(2, 4, 6, 8, 10)`
+:::
+
+
+## Regras de Etiqueta :bookmark: (2)
+
+
+- Nome de objetos em minúsculo
+- Utilize `_` para separar palavras no nome dos objetos
+- Evite separar por . ou utilizar o formato `CamelCase`
+- Use nomes informativos para os objeto
+- Não faça reuso do nome dos objetos em uma mesma análise
+
+```{r, collapse = TRUE, eval = FALSE}
+# Bom :)
+empregados_admitidos_2022
+
+# Ruim :(
+num.emp.adm.2022
+NumeroEmpregadosAdmitidos2022
+EMP_2_2022
+```
+
+
+
+## Sequências
+
+O `R` possui algumas funcionalidades para gerar sequências numéricas:
+
+
+```{r, echo = TRUE, collapse = TRUE}
+# Sequencias
+1:7
+
+seq(from = 1, to = 10, by = 2)
+
+letters[1:8] 
+
+rep(2, times = 5)
+
+rep(c(6, 7), each = 3)
+```
+
+## Operações lógicas
+
+O `R` possui **dois** valores lógicos, `TRUE` e `FALSE`. Os operadores de comparação entre dois objetos são: 
+
+- `==` &nbsp; igual  
+- `!=` &nbsp; diferente
+- `<` &nbsp; menor que
+- `>` &nbsp; maior que 
+- `<=` &nbsp; menor ou igual que
+- `>=` &nbsp; maior ou igual que
+
+
+## Operações lógicas
+
+Seguem alguns exemplos de como são feitas as comparações entre dois valores: 
+
+```{r, echo = TRUE, collapse = TRUE}
+# Operacoes logicas
+4 >= 3
+
+"a" == "A"
+
+c(12, 4) != c(12, 5)
+
+4 < pi
+```
+
+## Selecionando elementos em um vetor
+
+Para selecionar um ou mais elementos de um vetor, utilizamos o operador `[ ]`
+
+```{r, echo = TRUE, collapse = TRUE}
+# Vetor com informacoes de receita (em mil reais)
+receita <- c(43.9, 45.4, 48.2, 51.8, 56.5)
+
+# Selecionar o primeiro elemento
+receita[1]
+
+# Selecionar uma sequência de elementos
+receita[3:5]
+```
+
+
+## Selecionando elementos em um vetor
+
+Para exluir elementos do vetor, utilizamos o sinal `-` antes do indexador da posição
+
+```{r, echo = TRUE, collapse = TRUE}
+# Excluir o primeiro elemento
+receita[-1]
+
+# Excluir uma sequência de elementos
+receita[-c(3:5)]
+
+# Excluir o último elemento
+receita[-c(length(receita))] 
+```
+
+## Selecionando elementos em um vetor
+
+Podemos utilizar operações lógicas para selecionar elementos em um vetor
+
+```{r, echo = TRUE, collapse = TRUE}
+#| code-line-numbers: "1|1-5|1-8|1-12|1-17"
+valores <- c(13, 18, 25, 7, NA, 36)
+
+# Selecao de elementos
+valores[valores > 15]
+
+valores[!is.na(valores)]
+
+# Interseção (E)
+valores[!is.na(valores) & valores > 15]
+
+# União (OU)
+x <- 1:10
+x[x < 5 | x > 8]
+```
+
+
+## Regras de Etiqueta :bookmark:  (3)
+
+<h2><font color="736f72"> Espaçamento </font> </h2>
+
+- É uma boa prática colocar um espaço antes e depois de cada operador fixo (`=`, `+`, `-`, `<-`, etc)
+- Sempre coloque um espaço após a vírgula e nunca antes (como no português escrito). 
+
+```{r, echo = TRUE, collapse = TRUE}
+# Bom :)
+idade <- c(19, 21, 23, 24, 25, 31, 33)
+media_idade <- mean(idade, na.rm = TRUE)
+
+# Ruim :(
+idade<-c(19 ,21,23 ,24,25 ,31 ,33)
+media_idade<-mean(idade,na.rm=TRUE)
+```
+
+## 🚀 Quizz \#2 {.inverse background-color="#386FA4"}
+
+Considere o vetor `lista_vegana <- c("maca", "banana", "laranja", "kiwi", "batata", "brocolis")`
+
+- Quantos elementos o vetor `lista_vegana` possui?
+- Qual a classe do vetor?
+- Selecione o elemento `laranja`
+- Selecione apenas os vegetais utilizando a condição `|`
+- Exclua o elemento `kiwi` baseado na sua posição no vetor
+- Adicione `tomate` ao vetor.
+
+```{r, echo = FALSE, collapse = TRUE}
+countdown::countdown(
+  minutes = 5
+)
+```
+
+#  Matrizes
+
+## Matrizes
+
+Uma **matriz** é simplesmente um vetor com **dimensões**. Para entender o conceito de matrizes,
+considere um vetor único com receita e despesa de três municípios:
+
+```{r,  echo = TRUE, collapse = TRUE}
+# Contas dos municipios (receitas e despesas)
+contas_munic <- c(23.7, 19.5, 13.8, 13.4, 22.1, 21.9)
+dim(contas_munic) # dim() mostra o atributo dimensao 
+```
+
+. . .
+
+Para melhor visualizar as informações, podemos atribuir ao vetor a dimensão 2x3
+
+```{r,  echo = TRUE, collapse = TRUE}
+dim(contas_munic) <- c(2, 3)  
+contas_munic
+```
+
+Portanto, o resultado é uma **matriz** com **duas** linhas e **três** colunas.
+
+## Matrizes
+
+Podemos criar uma matriz através da função `matrix()`.
+
+```{r,  echo = TRUE, collapse = TRUE}
+# Matriz de contas dos municipios
+contas_matriz <- matrix(data = contas_munic, nrow = 2, ncol = 3, 
+                        byrow = F)
+contas_matriz
+dim(contas_matriz)
+```
+
+## Matrizes
+
+Para **selecionar** um elemento de uma matriz, devemos informar
+os índices relativos à linha `i` e à coluna `j` através do
+operador `[i,j]`. Por exemplo:
+
+```{r,  echo = TRUE, collapse = TRUE}
+# Selecionar elementos da matriz
+contas_matriz[1,2]
+contas_matriz[2,3]
+contas_matriz[1, ]
+contas_matriz[ ,1]
+```
+
+## Matrizes
+
+Além disso, podemos atribuir nomes para as linhas e colunas de uma matriz:
+
+```{r,  echo = TRUE, collapse = TRUE}
+# Atribuir nomes as dimensões
+colnames(contas_matriz) <- c("Patos", "Conde", "Areia")
+rownames(contas_matriz) <- c("Receita", "Despesa")
+contas_matriz 
+
+```
+
+. . . 
+
+E selecionar através do seu nome:
+
+```{r,  echo = TRUE, collapse = TRUE}
+# Selecionar elementos
+contas_matriz["Receita", "Patos"] 
+contas_matriz["Despesa", "Areia"]
+contas_matriz[ , "Conde"] 
+```
+
+
+## Matrizes
+
+É possível criar matrizes através da junção de colunas (`cbind`) ou linhas (`rbind`):
+
+```{r,  echo = TRUE, collapse = TRUE}
+# Considere dois vetores
+a <- c(1, 2, 3) 
+b <- c(5, 6, 7)
+
+# Junção por linhas
+m <- rbind(a, b)
+m
+```
+
+## Matrizes
+
+É possível criar matrizes através da junção de colunas `cbind()` ou linhas `rbind()`:
+
+```{r,  echo = TRUE, collapse = TRUE}
+# Considere dois vetores
+c <- c(1, 3, 5) 
+d <- c(2, 4, 6)
+
+# Junção por colunas
+j <- cbind(c, d)
+j
+```
+
+
+## Operações com matrizes
+
+Algumas operações usuais com matrizes são as seguintes:
+
+```{r,  echo = TRUE, collapse = TRUE}
+# Transpor uma matriz
+t(contas_matriz)
+
+# Multiplicar por um escalar
+1000000 * contas_matriz
+```
+
+## 🚀 Quizz \#3 {.inverse background-color="#386FA4"}
+
+- Crie três vetores `x`, `y` e `z` com inteiros, cada um com 3 elementos. Combine os três vetores para formar uma matriz `A` (3 × 3), onde cada coluna representa um vetor. Altere os nomes das linhas para `a`, `b` e `c`.
+- Crie um vetor com 12 elementos do tipo `numeric`. Converta o vetor em uma matriz `B` (4 x 3) usando `matrix()`. Preencha os elementos por linha ajustando o argumento `byrow = TRUE`.
+- Obtenha a transposta da matriz `B` e multipique pela matriz original `B`. Qual a dimensão da matriz obtida?
+
+```{r, echo = FALSE, collapse = TRUE}
+countdown::countdown(
+  minutes = 10
+)
+```
+
+# Data Frames
+
+## Data frames
+Um **data frame** é uma das estruturas mais importantes para armazanamento de dados. Equivale, de certa forma, às *planilhas eletrônicas* com linhas e colunas. 
+
+
+* Um data frame é um conjunto de vetores de mesmo tamanho;
+* Cada **linha** representa informações para uma única unidade de observação
+* Cada **coluna** representa uma característica observada das unidades;
+* Elementos da mesma coluna devem ser do mesma classe.  
+
+![](images/data_frame.png){fig-align="center"}
+
+
+## Data frames
+
+É possível criar, carregar (dados dos pacotes) ou ler arquivos diretamente no `R`. Para criar um data frame, fazemos:
+
+```{r, echo = TRUE, collapse = TRUE}
+alunos_ufpb <- data.frame(
+  aluno = c("José", "Maria", "Pedro", "Carla", "Isabel"),
+  economia = c(1, 0, 0, 1, 1),
+  periodo = c(3, 4, 7, 2, 3),
+  cra = c(7.34, 8.45, 8.05, 7.98, 9.03)
+  )
+
+alunos_ufpb
+```
+
+## Data frames
+
+Para carregar dados dos pacotes, fazemos:
+
+```{r, echo = TRUE, collapse = TRUE}
+#install.packages("dados")
+head(dados::dados_gapminder)
+```
+
+## Data frames
+
+Algumas características dos dados:
+
+```{r, echo = TRUE, collapse = TRUE}
+# Estrutura dos dados
+str(dados::dados_gapminder)
+
+# Listar variaveis
+names(dados::dados_gapminder)
+```
+
+## 
+
+![](images/10_lines_code.jpeg){fig-align="center"}

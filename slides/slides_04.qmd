@@ -1,0 +1,551 @@
+---
+title: Análise de Dados e Documentos Dinâmicos
+subtitle: Tópico IV - Manipulação de Dados II
+format: thinkridentity-revealjs
+author: Antonio Vinícius Barbosa
+date: last-modified
+from: markdown+emoji
+---
+
+
+## Junção de Dados
+
+- Nesta parte do curso, veremos algumas funções úteis para realizar a junção (ou **joins** ou **merge**) de bases de dados no `R`.
+- O **join** de bases de dados surge da necessidade de juntar informações de fontes distintas 
+em uma única base de dados.
+- **Join** é um conceito bastante comum para quem já trabalha com bancos de dados (principalmente com *SQL*).
+
+
+![](images/merge.png){fig-align="center" width="400"}
+
+## Junção de Dados
+
+Para realizar joins, utilizamos o conceito de **chaves**, variáveis que 
+identificam cada observação de maneira única. Alguns exemplos:
+
+- O **CPF** de um indivíduo
+- O **número de matrícula** de uma aluno
+- O **CNPJ** de um estabelecimento
+- O **código IBGE** de um município
+- A **sigla** de um país...
+
+. . .
+
+Em muitas situações, no entanto, as chaves de identificação das unidades de observação
+estão restritas a bases de dados **não públicas**. Além disso, nos últimos anos foi
+necessária a adequação à [Lei Geral de Proteção de dados (LGPD)](https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm).
+
+
+## Junção de Dados
+
+Para entender o conceito de joins, utilizaremos a representação gráfica baseada no livro [R for Data Science](https://r4ds.had.co.nz). Considere dois bancos de dados, com a *chave* dos indivíduos e o valor de uma variável
+
+
+![](images/join_1.png){fig-align="center" width="800"}
+
+## Junção de Dados
+
+```{r, echo = FALSE, collapse = TRUE}
+library(dplyr)
+```
+
+```{r, echo = TRUE, collapse = TRUE}
+# Base de dados 
+x <- tibble(
+  key = c(1, 2, 3),
+  val_x = c("x1", "x2", "x3")
+)
+
+y <- tibble(
+  key = c(1, 2, 4),
+  val_y = c("y1", "y2", "y3")
+)
+```
+
+
+## De forma geral
+
+O pacote `dplyr` possui funções que possibilitam realizar o **joins** (ou *merge*)
+de duas bases de dados. Podemos utilizar o diagrama de Venn para ter uma visão geral dos
+diferentes tipos:
+
+<br><br>
+
+![](https://d33wubrfki0l68.cloudfront.net/aeab386461820b029b7e7606ccff1286f623bae1/ef0d4/diagrams/join-venn.png){fig-align="center" width="800"}
+
+## Joins
+
+As principais funções utilizadas são:
+
+- `inner_join()`
+- `left_join()`
+- `right_join()`
+- `full_join()`
+
+
+
+## Usando o `inner_join()`
+
+As principais funções utilizadas são:
+
+- `inner_join()`: **retorna apenas as linhas com correspondências nas duas bases**.
+- `left_join()`
+- `right_join()`
+- `full_join()`
+
+
+## Usando o `inner_join()`
+
+O resultado do `inner_join()` é uma nova base que contem as chaves comuns nas duas bases e
+os valores da variáveis na base de dados **x** e na base de dados **y**
+
+
+![](images/inner_join.png){fig-align="center" width="800"}
+
+. . .
+
+```{r, echo = TRUE, collapse = TRUE}
+# Juncao de bases 
+inner_join(x, y, by = "key")
+```
+
+
+
+## Usando o `inner_join()`
+
+Para um exemplo mais concreto, utilizaremos dois bancos de dados: um com informações sobre os
+funcionários de uma empresa e outro com a remuneração média para cada cargo.
+
+
+```{r, echo = TRUE, collapse = TRUE}
+# Informacoes sobre homicidios por genero
+homicidios <- tibble(
+  codigo_ibge = c("3550308", "3304557", "3106200", "2927408", "5300108", 
+                  "4106902", "2611606", "2304400", "1302603", "4314902"),
+  municipio = c("São Paulo", "Rio de Janeiro", "Belo Horizonte", "Salvador",
+                "Brasília", "Curitiba", "Recife", "Fortaleza", "Manaus", 
+                "Porto Alegre"),
+  homicidios_homem = c(200, 150, 80, 120, 90, 60, 50, 70, 40, 55),
+  homicidios_mulher = c(40, 30, 20, 35, 25, 15, 10, 20, 12, 18)
+)
+
+# Criando tabela com informações sobre a população dos municípios
+populacao <- tibble(
+  codigo_ibge = c("3550308", "3304557", "3106200", "2927408", "5300108", 
+                  "4106902", "2611606", "2304400", "1302603", "4314902"),
+  populacao = c(12000000, 6500000, 2500000, 2900000, 3100000, 1900000, 
+                1600000, 2700000, 2200000, 1500000)
+)
+```
+
+
+
+## Usando o `inner_join()`
+
+
+::: columns
+
+::: {.column width="50%"}
+```{r, echo = TRUE, collapse = TRUE}
+# Dados de homicidios
+homicidios
+```
+:::
+
+::: {.column width="50%"}
+```{r, echo = TRUE, collapse = TRUE}
+# Dados de populacao
+populacao
+```
+:::
+
+:::
+
+## Usando o `inner_join()`
+
+O `inner_join()` cria uma base retornando apenas as ocorrências (linhas) que possuem chaves 
+iguais nos dois conjuntos:
+
+```{r, echo = TRUE, collapse = TRUE}
+inner_join(homicidios, populacao, by = "codigo_ibge")
+```
+
+
+## Quizz #1 {.inverse background-color="#386FA4"}
+
+Suponha que o nome das variáveis utilizadas para fazer o join são **distintas**, conforme o exemplo a seguir. Como realizar o `inner_join()` neste caso?
+
+
+```{r, echo = TRUE, collapse = TRUE}
+# Data x
+data_x <- tibble(
+  id = c(1, 2, 3, 4),
+  valor_x = c(12, 54, 7, 42)
+)
+
+# Data y
+data_y <- tibble(
+  codigo = c(1, 3, 4, 5),
+  valor_y = c(23, 56, 23, 11)
+)
+```
+
+
+## Usando o `inner_join()`
+
+- Um ponto importante é o fato do `inner_join` desconsiderar do resultado
+as informações que não tiveram *matching*.
+- Isto pode ser uma propriedade **não desejada** caso queiramos manter todas 
+as informações em uma análise de dados, dada a **perda de informações**
+
+
+
+## *Outer joins*
+
+Como vimos, o `inner_join()` não leva em consideração as linhas onde as chaves não coincidem. 
+Se quisermos manter todas  as informações, utilizamos o conceito de *outer joins*. Existem três tipos básicos: 
+
+- `left_join()` 
+- `right_join()` 
+- `full_join()`
+
+
+## *Outer joins*
+
+Para os exemplos a seguir, considere as seguintes bases de dados:
+
+```{r, echo = TRUE, collapse = TRUE}
+# Base de dados pacientes
+pacientes <- tibble(
+  id_paciente = 1:9,
+  nome = c("A.A.M", "S.S.G.F", "T.I.A", "L.O.S.M", "Y.Q.W", 
+           "F.A", "T.B.N", "J.J.L", "M.S.S"),
+  exame_a = c(3.8, 3.8, 3.9, 4.0, 4.4, 3.8, 3.7, 3.6, 4.0),
+  exame_b = c(89.9, 89.9, 99.8, 99.9, 100.0, 89.9, 
+              109.9, 109.9, 110.0),
+  exame_c = c(0, 1, 1, 0, 1, 1, 0, 0, 1)
+)
+
+# Base de dados tratamento
+tratamento <- tibble(
+  id_paciente = c(1, 4, 5, 7, 8, 11, 15, 25),
+  medicamento = c("A", "B", "A", "B", "A", "A", "B", "B")
+)
+```
+
+
+## *Outer joins*
+
+::: columns
+
+::: {.column width="50%"}
+```{r, echo = TRUE, collapse = TRUE}
+# Visualizando pacientes
+pacientes
+```
+:::
+::: {.column width="50%"}
+```{r, echo = TRUE, collapse = TRUE}
+# Visualizando tratamento
+tratamento
+```
+:::
+
+:::
+
+## Usando o `left_join()`
+
+As principais funções utilizadas são:
+
+- `inner_join()`
+- `left_join()`: **mantém todas as observações do banco `x`** (*o banco do lado esquerdo*)
+- `right_join()`
+- `full_join()`
+
+
+## Usando o `left_join()`
+
+A função `left_join()` preserva todas as observações do lado esquerdo (`x`) e remove 
+as informações do lado direito (`y`) que não possuem correspondência.
+
+![](images/left_join.png){fig-align="center" width="800"}
+
+
+- O resultado é uma base com informações dos indivíduos 1, 2, e 3 . 
+- O indivíduo 4 foi excluído por não ter correspondência em `x`.
+
+
+## Usando o `left_join()`
+
+Para preservar todos os pacientes e desprezar os registros de tratamento que não correspondem a
+pacientes hospitalizados, fazemos:
+
+```{r, echo = TRUE, collapse = TRUE}
+# Left join do dplyr
+left_join(pacientes, tratamento, join_by(id_paciente))
+```
+
+
+## Usando o `right_join()`
+
+As principais funções são:
+
+- inner_join()
+- left_join()
+- right_join(): **mantém todas as observações do banco `y`** (*o banco do lado direito*)
+- full_join()
+
+
+
+## Usando o `right_join()`
+
+O comando `right_join()` preserva todas as observações do lado direito e remove as informações
+do lado esquerdo que não possuem correspondência.
+
+![](images/right_join.png){fig-align="center" width="800"}
+
+- Neste caso, o resultado é uma base com informações dos pacientes 1, 2, e 4. O indivíduo
+3 foi excluido por não ter não ter correspondência em `y`.
+
+
+## Usando o `right_join()`
+
+Para preservar todos as linhas do conjunto da direita (tratamento) e desprezar os 
+pacientes sem correspondência de chave, fazemos:
+
+```{r, echo = TRUE, collapse = TRUE}
+# Right join do dplyr
+right_join(pacientes, tratamento, join_by(id_paciente))
+```
+
+
+## Usando o `full_join()`
+
+As principais funções são:
+
+- `inner_join()`
+- `left_join()`
+- `right_join()`
+- `full_join()`: **mantem todas as observações dos bancos `x` e `y`**
+
+
+
+## Usando o `full_join()`
+
+O comando `full_join()` preserva todas as observações de ambos os bancos
+
+![](images/full_join.png){fig-align="center" width="800"}
+
+- O resultado é uma base com informações completas, com as correspondências incompletas 
+representadas por `NA`.
+
+
+## Usando o `full_join()`
+
+Para preservar todos os registros de ambos os conjuntos de dados, fazemos:
+
+```{r, echo = TRUE, collapse = TRUE}
+# Full join do dplyr
+full_join(pacientes, tratamento, join_by(id_paciente))
+```
+
+
+
+
+## Quizz #2 {.inverse background-color="#386FA4"}
+
+```{r, echo = TRUE, collapse = TRUE}
+# Cadastro de clientes
+clientes <- tibble(
+  id_cliente = c(1, 2, 3, 4, 5),
+  nome_cliente = c("João", "Maria", "Pedro", "Ana", "Luiza"),
+  idade_cliente = c(30, 25, 40, 35, 28),
+  sexo = c("M", "F", "M", "F", "F")
+)
+
+# Historico de compras
+compras <- tibble(
+  id_cliente = c(1, 2, 3, 4, 1, 2, 3),
+  produto = c("Celular", "Notebook", "Tablet", "Smartwatch", 
+              "Fone de Ouvido", "Teclado", "Mouse"),
+  valor_compra = c(1500, 2500, 800, 300, 100, 80, 50)
+)
+```
+
+- Encontre os gastos totais de cada cliente da loja.
+- Encontre os gastos médio por sexo.
+
+
+
+# Formatação de dados
+
+
+## O pacote `tidyr`
+
+O pacote `tidyr` dispõe de funções bastante úteis para **organizar** os dados no formato 
+necessário para a análise. 
+
+![](https://rapidsurveys.io/css/images/hex/tidyr.png){fig-align="center" width="100"}
+
+
+
+
+#  Pivoting 
+
+## Pivoting
+
+Existem dois tipos de formatação dos dados:
+
+. . .
+
+
+![](https://bookdown.org/Maxine/r4ds/images/12.png){fig-align="center" width="900"}
+
+## Pivoting
+
+As principais funções para transformar os dados para formato *long* ou *wide* são:
+
+- `pivot_longer()`: empilha o banco de dados, deixando no formato **longo** (*long*). 
+- `pivot_wider()`: transforma o banco para um formato **expandido** (*wide*).
+
+
+![](https://www.pipinghotdata.com/posts/2021-08-27-a-tidyverse-pivot-approach-to-data-preparation-in-r/gatherspread_modified.jpg){fig-align="center" width="1200"}
+
+
+## A função `pivot_longer()`
+
+
+- `pivot_longer()`: empilha o banco de dados, deixando no formato **longo**. 
+
+
+![](images/longer_sch.png){fig-align="center" width="1500"}
+
+
+## A função `pivot_longer()`
+
+Neste exemplo, vamos criar um `tibble`:
+
+```{r, echo = FALSE, collapse = TRUE}
+library(tidyr)
+library(dplyr)
+```
+
+
+```{r, echo = TRUE, collapse = TRUE}
+# Criar dados
+dados_uf <- tibble(
+  uf = c("RJ", "SP", "PB"),
+  `2017` = c(23, 45, 19),
+  `2018` = c(20, 38, 17),
+  `2019` = c(28, 36, 20)
+)
+
+dados_uf
+```
+
+
+
+## A função `pivot_longer()`
+
+
+Utilizando a função `pivot_longer()`
+
+
+```{r, echo = TRUE, collapse = TRUE}
+dados_uf_long <- dados_uf |>  
+  pivot_longer(
+    cols = `2017`:`2019`,
+    names_to = "ano",
+    values_to = "valor"
+    )
+
+dados_uf_long
+```
+
+. . .
+
+Tal formato é bastante utilizado para análises de unidades ao longo do tempo (por exemplo, em 
+análises de **dados de séries temporais** ou **dados em painel**)
+
+## Quizz #1 {.inverse background-color="#386FA4"}
+
+Altere para **long** o formato do banco com informações do peso (em gramas) de recém 
+nascidos, transformando apenas as variáveis contendo informações do peso, ordenados em ordem
+alfabética dos nomes:
+
+ 
+```{r, echo = TRUE, collapse = TRUE}
+peso_recem_nascido <- tibble(
+  nome = c("João", "Maria", "José", "Ana"),
+  sobrenome = c("Oliveira", "Duarte", "Silveira", "Cavalcante"),
+  sexo = c("M", "F", "M", "F"),
+  mes_0 = c(4300, 5240, 5180, 5450),
+  mes_1 = c(5300, NA, 6607, 6900),
+  mes_2 = c(4560, 6301, NA, 8765),
+  mes_3 = c(5003, NA, 6015, 6399)
+)
+
+peso_recem_nascido
+```
+ 
+```{r, echo = FALSE, collapse = TRUE}
+countdown::countdown(
+  minutes = 5
+)
+``` 
+ 
+## Quizz \#2 {.inverse background-color="#386FA4"}
+
+
+Neste exercício, retomaremos ao exemplo dos dados históricos do Índice Bovespa (Ibovespa) disponíveis
+no site da B3 [http://www.b3.com.br/pt_br/market-data-e-indices/indices/indices-amplos/indice-ibovespa-ibovespa-estatisticas-historicas.htm](http://www.b3.com.br/pt_br/market-data-e-indices/indices/indices-amplos/indice-ibovespa-ibovespa-estatisticas-historicas.htm)
+
+1. Baixe os dados referente ao segundo semestre de 2023
+2. Leia os dados corretamente, transformando em um formato *tidy*.
+3. Transforme os dados para o formato *long*.
+4. [*Desafio*] Como você faria para colocar os dados em ordem cronológica crescente? (*Ver documentação da função*)
+
+```{r, echo = FALSE, collapse = TRUE}
+countdown::countdown(
+  minutes = 10
+)
+``` 
+
+
+## A função `pivot_wider()`
+
+A função `pivot_wider()` transforma o banco para um formato **expandido** (*wide*)
+
+![](images/wider_sch.png){fig-align="center" width="1500"}
+
+
+## A função `pivot_wider()`
+
+Pra transformar do formato *long* para *wide*:
+ 
+```{r, echo = TRUE, collapse = TRUE}
+# Formato wide
+dados_uf_long |> 
+  pivot_wider(
+    names_from = "ano",
+    values_from = "valor",
+    names_prefix =  "ano_"
+  )
+```
+
+## Quizz \#3 {.inverse background-color="#386FA4"}
+
+1. Utilize os dados `population` inseridos no pacote `tidyr` através de `tidyr::population`.
+2. Salve os dados em um objeto.
+3. Transforme para o formato *wide*.
+4. Utilize o argumento `prefix` par adicionar `ano_` antes do nome de cada coluna pivoteada.
+
+```{r, echo = FALSE, collapse = TRUE}
+countdown::countdown(
+  minutes = 5
+)
+``` 
+
+
+
+
