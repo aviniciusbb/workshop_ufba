@@ -1,11 +1,292 @@
 ---
-title: Workshop - Introdução à Ciência de dados no R
-subtitle: Tópico II - Comandos Básicos
+title: Introdução à Ciência de dados no R
+subtitle: Workshop - Universidade Federal da Bahia
 format: thinkridentity-revealjs
 author: Antonio Vinícius Barbosa
 date: last-modified
 from: markdown+emoji
 ---
+
+
+## Sobre mim
+
+<h3><font color="#FF773D"> Antonio Vinícius Barbosa :wave: </font></h3> 
+
+::: {.incremental}
+
+- Doutor em Economia pelo PIMES/UFPE e Universitat Pompeu Fabra. 
+- Professor do Departamento de Economia da Universidade Federal da Paraíba. 
+- Professor do Programa de Pós-graduação em Economia (PPGE/UFPB).
+- Pesquisador do LEMA (Laboratório de Economia e Modelagem Aplicada).
+
+:::
+
+
+# <font color="#FF773D"> O que é Ciência de Dados? </font>  {background-color="#E3E3E3"}
+
+
+## O que é Ciência de Dados?
+
+
+> A **Ciência de Dados** é a área de estudo dos **dados** desde seu processo de 
+captura, transformação, análise e, posteriormente, da geração de *informações*  e
+*conhecimento* para empresas, para o setor público e para mundo dos negócios.
+
+
+![](images/Data-science.png){fig-align="center" width="400"}
+
+
+## O fluxo da Ciência de Dados
+
+![](images/fluxo_data_science.png){fig-align="center" width="400"}
+
+Adaptado de [Alfred Reinold Baudisch](https://medium.com/@AlfredBaudisch/o-que-é-ciência-de-dados-data-science-7af5bdac101a)
+
+
+# <font color="#FF773D"> O que NÃO é Ciência de Dados? </font> {background-color="#E3E3E3"}
+
+
+## O que NÃO é Ciência de Dados?
+
+
+![](images/ugly_graph_3.png){fig-align="center" width="400"}
+
+Informações *descontextualizadas* não configuram o campo da Ciência de Dados, pois 
+*não geram conhecimento relevante*.
+
+
+## O que NÃO é Ciência de Dados?
+
+
+![](images/one_imply.jpg){fig-align="center" width="400"}
+
+Replicar códigos e análises de outras fontes não o faz um Cientista de Dados. É necessário
+dominar um conjunto de técnicas e ter conhecimento teórico do assunto.
+
+
+
+## O que NÃO é Ciência de Dados?
+
+![](images/data_scientist_sexy.jpeg){fig-align="center" width="400"}
+
+É de fundamental importância a *interação* e a *comunicação* em equipe sobre os 
+métodos e resultados para o desenvovimento da Ciência de Dados. É um campo *multidisciplinar*.
+
+
+# <font color="#FF773D"> Ciência de Dados NÃO é a respeito do software **X** ou sobre a linguagem **Y**! </font> {background-color="#BBDEF0"}
+
+
+
+# <font color="#FF773D"> Introdução </font> {background-color="#BBDEF0"}
+
+
+
+
+
+## A Ciência dos Dados e os Novos Paradigmas
+
+
+![](images/click1.png){fig-align="center" width="400"}
+
+
+
+## A Ciência dos Dados e os Novos Paradigmas
+
+
+![](images/click2.png){fig-align="center" width="400"}
+
+## A Ciência dos Dados e os Novos Paradigmas
+
+
+![](images/click3.png){fig-align="center" width="400"}
+
+
+
+## A Ciência dos Dados e os Novos Paradigmas
+
+
+![](images/click4.png){fig-align="center" width="400"}
+
+
+## A Ciência dos Dados e os Novos Paradigmas
+
+
+![](images/click5.png){fig-align="center" width="400"}
+
+
+
+## A Ciência dos Dados e os Novos Paradigmas
+
+
+![](images/click6.png){fig-align="center" width="400"}
+
+
+## A Ciência dos Dados e os Novos Paradigmas
+<br><br>
+
+![](images/openai.png){fig-align="center" width="400"}
+
+<br><br>
+
+A [OpenAI](https://openai.com/blog/chatgpt/) é a empresa que criou, no final de 2022, o **ChatGPT**. 
+
+
+## Economia e Ciência de Dados
+
+![](images/economics_ds.png){fig-align="center" width="400"}
+
+Link: [https://medium.com/@metjush/4-reasons-why-economists-make-great-data-scientists-and-why-no-one-tells-them-524478845ec2](https://medium.com/@metjush/4-reasons-why-economists-make-great-data-scientists-and-why-no-one-tells-them-524478845ec2)
+
+
+## De onde vêm os dados?
+
+![](images/stork_bg.png){fig-align="center" width="400"}
+
+
+## De onde vêm os dados?
+
+![](images/censo.jpg){fig-align="center" width="400"}
+
+## De onde vêm os dados?
+
+![](images/nfe.jpg){fig-align="center" width="400"}
+
+## De onde vêm os dados?
+
+![](images/social_network.jpg){fig-align="center" width="400"}
+
+## Observando o Airbnb
+
+
+![](images/airbnb.png){fig-align="center" width="400"}
+
+
+Através dos dados da plataforma do  [http://insideairbnb.com](http://insideairbnb.com) é possível entender, por exemplo, o efeito sobre preço de imóveis. 
+
+
+
+## Observando o Airbnb
+
+
+![](images/airbnb_bcn.jpg){fig-align="center" width="400"}
+
+Em *Barcelona*, por exemplo, o preço dos alugueis e de compra dos imóveis cresceram tanto em regiões mais concentradas quanto em menos concentradas.
+
+
+## Dados do Uber
+
+![](images/uber_data.png){fig-align="center" width="400"}
+
+
+Informações sobre o tempo da corrida [https://movement.uber.com/](https://movement.uber.com/)  informam sobre o deslocamento da população nas cidades...
+
+
+
+## Efeitos sobre Saúde
+
+
+![](images/commuting.png){fig-align="center" width="400"}
+
+... e isso afeta saúde, produtividade, salários e o PIB dos municípios.
+
+
+
+
+
+## Por que utilizar o `R`?
+
+![The R Project for Statistical Computing](images/R_logo.png){fig-align="center" width="300"}
+
+
+## Por que utilizar o `R`?
+
+* Software gratuito
+* CRAN com mais de 10.000 \textit{pacotes}
+* Comunidade ativa e colaborativa
+* Versatilidade: manipulação de dados, modelagem estatística, gráficos
+* Integrabilidade
+
+
+## Principais linguagens
+
+![](images/languages.png){fig-align="center" width="400"}
+
+## Instalando o `R`
+
+![1. Acessar [https://cran.r-project.org/](https://cran.r-project.org/) e clicar em `'download R'`.](images/install_R_initial.png){fig-align="center" width="400"}
+
+
+## Instalando o `R`
+
+![2.Selecione o mirror (servidor onde o `R` está disponível para download).](images/mirror.png){fig-align="center" width="400"}
+
+## Instalando o `R`
+
+![3. Selecionar o sistema operacional.](images/install_R.png){fig-align="center" width="400"}
+
+
+
+## Instalando o `R`
+
+![4. Selecione a opção para instalar o `R` pela primeira vez](images/install_mirrors_R.png){fig-align="center" width="400"}
+
+## Instalando o `R`
+
+![5. Selecione a versão mais recente e aguarde o download](images/install_final_R.png){fig-align="center" width="400"}
+
+
+
+
+## `R` no Windows
+
+![Interface do \texttt{R} no Windows](images/R_windows.png){fig-align="center" width="400"}
+
+
+
+## Ambientes de desenvolvimento integrado (IDE)
+
+* A forma mais conveniente de utilizar o `R` é através de uma interface gráfica através de janelas.
+* É possível interagir com o sistema através do \textit{shell prompt}, embora requeira maior conhecimento do usuário.
+* O desenvolvimento de Ambientes de Desenvolvimento Integrado (IDE) tem como objetivo facilitar a interação entre o usuário e o sistema.  
+
+
+## RStudio
+
+![](images/RStudio-Logo-Flat.png){fig-align="center" width="400"}
+
+RStudio é um conjunto eficiente de ferramentas integradas [https://posit.co/](https://posit.co/)
+
+
+## Instalando o RStudio
+
+
+![](images/rstudio.png){fig-align="center" width="400"}
+
+## Instalando o RStudio
+
+
+![](images/rstudio_download.png){fig-align="center" width="400"}
+
+## Instalando o RStudio
+
+
+![](images/rstudio_options.png){fig-align="center" width="400"}
+
+
+## Instalando o RStudio
+
+
+![Ambiente do RStudio](images/rstudio_example.png){fig-align="center" width="400"}
+
+
+## Outras IDEs
+
+Além do RStudio, existem outras interfaces pra utilizar o `R`:
+
+- [Positron IDE](https://github.com/posit-dev/positron)
+- [Visual Studio Code](https://code.visualstudio.com/)
+- [Sublime Text](https://www.sublimetext.com/)
+- [Posit Cloud](https://posit.cloud/)
 
 
 # Utilizando o `R` 
@@ -222,7 +503,6 @@ Veremos as principais estruturas de dados do `R`:
 
 ::: {.incremental}
 - **Vetores**
-- **Matrizes**
 - **Data frames**
 
 :::
@@ -261,18 +541,6 @@ class(cra)
 
 As classes definem a forma de **armazenamento** na memória. Por exemplo, um vetor de números inteiros requer menos espaço de armazenamento do que os vetores numéricos.
 
-## Classes
-
-Para converter manualmente (quando possível) a classe de um vetor, utilizamos as funções `as.character()`, `as.numeric()`, `as.integer()` e `as.logical()`:
-
-```{r, echo = TRUE, collapse = TRUE}
-# Modificando classes de vetores
-as.integer(idade)
-
-as.numeric(aluno_econ)
-
-as.character(cra)
-```
 
 ## Combinando vetores
 
@@ -290,7 +558,7 @@ class(v3)
 . . .
 
 O novo vetor é formado unicamente por caracteres. Portanto, vetores no `R`
-são formado com elementos de uma única classe.
+são formado com elementos de uma única classe (homogêneos).
 
 
 ## Operação com vetores
@@ -374,29 +642,8 @@ mean(valores_na, na.rm = TRUE)
 sd(valores_na, na.rm = T)
 ```
 
-## Reciclagem dos elementos dos vetores
-
-Podemos fazer operações com vetores de diferentes tamanhos. No entanto, o R
-utiliza um regra de reciclagem dos seus elementos:
-
-```{r, echo = TRUE, collapse = TRUE}
-# Criando vetores
-j <- c(1, 2, 3)
-k <- c(2, 4, 6, 8, 10)
-# Somar vetores de tamanhos distintos
-soma <- j + k
-soma
-```
-
-. . .
-
-::: {.callout-note}
-Equivale a soma de `c(1, 2, 3, 1, 2) + c(2, 4, 6, 8, 10)`
-:::
-
 
 ## Regras de Etiqueta :bookmark: (2)
-
 
 - Nome de objetos em minúsculo
 - Utilize `_` para separar palavras no nome dos objetos
@@ -548,132 +795,6 @@ countdown::countdown(
 )
 ```
 
-#  Matrizes
-
-## Matrizes
-
-Uma **matriz** é simplesmente um vetor com **dimensões**. Para entender o conceito de matrizes,
-considere um vetor único com receita e despesa de três municípios:
-
-```{r,  echo = TRUE, collapse = TRUE}
-# Contas dos municipios (receitas e despesas)
-contas_munic <- c(23.7, 19.5, 13.8, 13.4, 22.1, 21.9)
-dim(contas_munic) # dim() mostra o atributo dimensao 
-```
-
-. . .
-
-Para melhor visualizar as informações, podemos atribuir ao vetor a dimensão 2x3
-
-```{r,  echo = TRUE, collapse = TRUE}
-dim(contas_munic) <- c(2, 3)  
-contas_munic
-```
-
-Portanto, o resultado é uma **matriz** com **duas** linhas e **três** colunas.
-
-## Matrizes
-
-Podemos criar uma matriz através da função `matrix()`.
-
-```{r,  echo = TRUE, collapse = TRUE}
-# Matriz de contas dos municipios
-contas_matriz <- matrix(data = contas_munic, nrow = 2, ncol = 3, 
-                        byrow = F)
-contas_matriz
-dim(contas_matriz)
-```
-
-## Matrizes
-
-Para **selecionar** um elemento de uma matriz, devemos informar
-os índices relativos à linha `i` e à coluna `j` através do
-operador `[i,j]`. Por exemplo:
-
-```{r,  echo = TRUE, collapse = TRUE}
-# Selecionar elementos da matriz
-contas_matriz[1,2]
-contas_matriz[2,3]
-contas_matriz[1, ]
-contas_matriz[ ,1]
-```
-
-## Matrizes
-
-Além disso, podemos atribuir nomes para as linhas e colunas de uma matriz:
-
-```{r,  echo = TRUE, collapse = TRUE}
-# Atribuir nomes as dimensões
-colnames(contas_matriz) <- c("Patos", "Conde", "Areia")
-rownames(contas_matriz) <- c("Receita", "Despesa")
-contas_matriz 
-
-```
-
-. . . 
-
-E selecionar através do seu nome:
-
-```{r,  echo = TRUE, collapse = TRUE}
-# Selecionar elementos
-contas_matriz["Receita", "Patos"] 
-contas_matriz["Despesa", "Areia"]
-contas_matriz[ , "Conde"] 
-```
-
-
-## Matrizes
-
-É possível criar matrizes através da junção de colunas (`cbind`) ou linhas (`rbind`):
-
-```{r,  echo = TRUE, collapse = TRUE}
-# Considere dois vetores
-a <- c(1, 2, 3) 
-b <- c(5, 6, 7)
-
-# Junção por linhas
-m <- rbind(a, b)
-m
-```
-
-## Matrizes
-
-É possível criar matrizes através da junção de colunas `cbind()` ou linhas `rbind()`:
-
-```{r,  echo = TRUE, collapse = TRUE}
-# Considere dois vetores
-c <- c(1, 3, 5) 
-d <- c(2, 4, 6)
-
-# Junção por colunas
-j <- cbind(c, d)
-j
-```
-
-
-## Operações com matrizes
-
-Algumas operações usuais com matrizes são as seguintes:
-
-```{r,  echo = TRUE, collapse = TRUE}
-# Transpor uma matriz
-t(contas_matriz)
-
-# Multiplicar por um escalar
-1000000 * contas_matriz
-```
-
-## 🚀 Quizz \#3 {.inverse background-color="#386FA4"}
-
-- Crie três vetores `x`, `y` e `z` com inteiros, cada um com 3 elementos. Combine os três vetores para formar uma matriz `A` (3 × 3), onde cada coluna representa um vetor. Altere os nomes das linhas para `a`, `b` e `c`.
-- Crie um vetor com 12 elementos do tipo `numeric`. Converta o vetor em uma matriz `B` (4 x 3) usando `matrix()`. Preencha os elementos por linha ajustando o argumento `byrow = TRUE`.
-- Obtenha a transposta da matriz `B` e multipique pela matriz original `B`. Qual a dimensão da matriz obtida?
-
-```{r, echo = FALSE, collapse = TRUE}
-countdown::countdown(
-  minutes = 10
-)
-```
 
 # Data Frames
 
